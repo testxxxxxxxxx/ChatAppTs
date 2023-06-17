@@ -1,33 +1,16 @@
-import mongoose from "mongoose";
-
-class User 
+import mongoose, { Schema,Model, Connection } from "mongoose";
+    
+interface User
 {
-    private id: number;
-    private login: string;
-    private password: string;
-    private table: string;
-
-    public constructor(id: number,table: string)
-    {
-        this.id=id;
-        this.table=table;
-
-        mongoose.connect('mongodb://localhost:27017/chatAppTs');
-
-        this.login="Test";
-        this.password="";
-
-    }
-
-    public async getLogin(id: number): Promise<any>
-    {
-
-    }
-    public getPassword(): any
-    {
-        
-    }
+    login: String;
+    password: String;
 
 }
 
-export default User;
+mongoose.connect('mongodb://localhost:27017/chatAppTs');
+
+const userSchema: Schema = new mongoose.Schema<User>({login: String,password: String});
+
+const User0: any = mongoose.model('User',userSchema);
+
+export default User0;

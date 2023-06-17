@@ -1,17 +1,13 @@
 import {Request,Response} from 'express';
-import User from '../Models/User.ts';
+import User0 from '../Models/User.ts';
 
 class MessageController
 {
-    public static show(res: Response): void
+    public static async show(res: Response): Promise<void>
     {
-        let user: User=new User(1,'users');
-
-        let login: Promise<any>=user.getLogin(1);
-
         res.render('index',{
 
-            text: login
+            text: await User0.find().exec()
 
         });
 
