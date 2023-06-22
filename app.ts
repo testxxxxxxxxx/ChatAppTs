@@ -3,7 +3,7 @@ import hbs from 'hbs';
 import path from 'path';
 import bodyParser from 'body-parser';
 import { fileURLToPath } from 'url';
-import MessageController from './Controllers/MessageController.ts';
+import UserController from './Controllers/UserController.ts';
 
 const router: Router = express.Router();
 
@@ -20,7 +20,7 @@ app.set('view engine','hbs');
 
 app.get('/',(req: Request,res: Response): void =>{
 
-    MessageController.show(res);
+    UserController.index(res);
 
 });
 
