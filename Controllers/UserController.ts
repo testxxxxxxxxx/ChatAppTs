@@ -1,13 +1,15 @@
 import {Request,Response} from 'express';
-import User0 from '../Models/User.js';
+import UserService from '../Services/UserService.ts';
 
 class UserController
 {
     public static async index(res: Response): Promise<void>
     {
+        const userService: UserService = new UserService();
+
         res.render('index',{
 
-            text: await User0.find().exec()
+            text: await userService.login('Test','example')
 
         });
 

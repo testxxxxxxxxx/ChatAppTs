@@ -9,7 +9,7 @@ interface User
 
 mongoose.connect('mongodb://localhost:27017/chatAppTs');
 
-const userSchema: Schema = new mongoose.Schema<User>({login: String,password: String});
+const userSchema: Schema = new mongoose.Schema<User>({login: String,password: String},{strict: false});
 
 const User0: any = mongoose.model('User',userSchema);
 
