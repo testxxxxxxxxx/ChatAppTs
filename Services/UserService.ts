@@ -7,13 +7,13 @@ class UserService implements UserInterface
     {
         const result: object = await this.getPassword(login);
 
-        console.log(result)
+        console.log(result);
 
         return false;
     }
     public async register(login: string,password: string): Promise<boolean>
     {
-        const result: boolean = await User0.craete({login: login,password: password});
+        const result: boolean = await User0.create({login: login,password: password});
 
         return result;
     }
