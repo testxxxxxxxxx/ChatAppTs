@@ -1,4 +1,6 @@
 import express,{ Express,Router,Request,Response } from 'express';
+import cookieParser from 'cookie-parser';
+import sessions from 'express-session';
 import hbs from 'hbs';
 import path from 'path';
 import bodyParser from 'body-parser';
@@ -14,7 +16,19 @@ const app: Express = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
+app.use(sessions({
+
+    secret: 'user',
+    saveUninitialized: true,
+    cookie: {maxAge: 3600},
+    resave: false
+
+}));
+app.use(express.json());
+app.use(express.urlencoded({extended: true}))
 app.set('views','./Views');
+app.use(express.static(__dirname));
+app.use(cookieParser());
 hbs.registerPartials(path.join(__dirname,'./Views/Partials'));
 app.set('view engine','hbs');
 

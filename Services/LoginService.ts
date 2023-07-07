@@ -1,22 +1,32 @@
 import UserInterface from "../Interfaces/UserInterface.ts";
 import UserService from "./UserService.ts";
+import HashService from "./HashService.ts";
 
 class LoginService implements UserInterface
 {
-    public constructor(private userService: UserService)
+    public constructor(private userService: UserService,private hashService: HashService)
     {
         this.userService=userService;
+        this.hashService=hashService;
 
     }
 
     public async login(login: string, password: string): Promise<boolean> 
     {    
+        const finalPassword: any = await this.getPassword(login);
 
-        return false;
+        const passwordsAreNotDiffrent: boolean = await this.hashService.compare(password,finalPassword.password);
+
+        if(!passwordsAreNotDiffrent)
+            return false;
+
+        return true;
     }
-    public async register(login: string, password: string): Promise<boolean> 
+    public async register(login: string, password: string,salt: number): Promise<boolean> 
     {
-        if(await this.loginNotExist(login) && await this.createUser(login,password))
+        const hashPassword: string = await this.hashService.getHash(password,10);
+
+        if(await this.loginNotExist(login) && await this.createUser(login,hashPassword))
             return true;
 
         return false;
@@ -38,3 +48,5 @@ class LoginService implements UserInterface
     }
 
 }
+
+export default LoginService;

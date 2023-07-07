@@ -12,7 +12,7 @@ class UserService implements UserInterface
 
         return false;
     }
-    public async register(login: string,password: string): Promise<boolean>
+    public async register(login: string,password: string,salt: number): Promise<boolean>
     {
 
         return false;
