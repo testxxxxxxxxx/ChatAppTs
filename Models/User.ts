@@ -1,4 +1,4 @@
-import mongoose, { Schema,Model, Connection } from "mongoose";
+import mongoose, { Schema } from "mongoose";
     
 interface User
 {

@@ -1,40 +1,75 @@
 import {Request,Response} from 'express';
-import UserService from '../Services/UserService.ts';
-import LoginService from '../Services/LoginService.ts';
-import HashService from '../Services/HashService.ts';
+import Services from '../Services/UserService.ts';
+import LoginServices from '../Services/LoginService.ts';
+import HashServices from '../Services/HashService.ts';
 
-class UserController
+namespace Controllers
 {
-    public static async index(res: Response): Promise<void>
+    export class UserController
     {
-        const hashService: HashService = new HashService();
-        const userService: UserService = new UserService();
-        const loginService: LoginService = new LoginService(userService,hashService);
+        public static async login(req: Request,res: Response): Promise<void>
+        {
+            const hashService: HashServices.HashService = new HashServices.HashService();
+            const userService: Services.UserService = new Services.UserService();
+            const loginService: LoginServices.LoginService = new LoginServices.LoginService(userService,hashService);
 
-        res.render('index',{
+            let message: string = "";
+            const email: string = req.body.email;
+            const password: string = req.body.password;
 
-            text: await loginService.login("Test_1","Password_1")
+            if(await loginService.login(email,password))
+            {
+                req.session.user = loginService.email;
 
-        });
+                res.redirect('../');
 
-    }
-    public static async show(req: Request,res: Response): Promise<void>
-    {
+            }
+            else
+            {
+                message="Login or password is not correct!";
 
-    }
-    public static async create(req: Request,res: Response): Promise<void>
-    {
+                res.redirect('back');
 
-    }
-    public static async update(req: Request,res: Response): Promise<void>
-    {
+            }
 
-    }
-    public static async delete(req: Request,res: Response): Promise<void>
-    {
+        }
+        public static async show(req: Request,res: Response): Promise<void>
+        {
+            if(req.session.user)
+            {
+                res.render('index',{
+
+                    message: "You have been sucessful logged in"
+
+                });
+
+            }
+            else
+            {
+                res.render('index',{
+
+                    message: "false"
+
+                });
+
+            }
+
+        }
+        public static async create(req: Request,res: Response): Promise<void>
+        {
+
+        }
+        public static async update(req: Request,res: Response): Promise<void>
+        {
+
+        }
+        public static async delete(req: Request,res: Response): Promise<void>
+        {
+
+        }
 
     }
 
 }
 
-export default UserController;
+export default Controllers;

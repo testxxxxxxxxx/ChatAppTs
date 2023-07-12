@@ -1,52 +1,65 @@
 import UserInterface from "../Interfaces/UserInterface.ts";
-import UserService from "./UserService.ts";
-import HashService from "./HashService.ts";
+import UserServices from "./UserService.ts";
+import HashServices from "./HashService.ts";
 
-class LoginService implements UserInterface
+namespace LoginServices
 {
-    public constructor(private userService: UserService,private hashService: HashService)
+    export class LoginService implements UserInterface
     {
-        this.userService=userService;
-        this.hashService=hashService;
+        public email: string;
 
-    }
+        public constructor(private userService: UserServices.UserService,private hashService: HashServices.HashService)
+        {
+            this.userService=userService;
+            this.hashService=hashService;
 
-    public async login(login: string, password: string): Promise<boolean> 
-    {    
-        const finalPassword: any = await this.getPassword(login);
+        }
 
-        const passwordsAreNotDiffrent: boolean = await this.hashService.compare(password,finalPassword.password);
+        public async login(login: string, password: string): Promise<boolean> 
+        {    
+            const finalPassword: any = await this.getPassword(login); //hash password from database
 
-        if(!passwordsAreNotDiffrent)
-            return false;
+            if(finalPassword===null)
+                return false;
 
-        return true;
-    }
-    public async register(login: string, password: string,salt: number): Promise<boolean> 
-    {
-        const hashPassword: string = await this.hashService.getHash(password,10);
+            const passwordsAreNotDiffrent: boolean = await this.hashService.compare(password,finalPassword.password);
 
-        if(await this.loginNotExist(login) && await this.createUser(login,hashPassword))
+            if(!passwordsAreNotDiffrent)
+                return false;
+
+            this.email = login;
+
             return true;
+        }
+        public async register(login: string, password: string,salt: number): Promise<boolean> 
+        {
+            const hashPassword: string = await this.hashService.getHash(password,10);
 
-        return false;
-    }
-    public async createUser(login: string, password: string): Promise<boolean> 
-    {
+            if(!await this.loginNotExist(login) && !await this.createUser(login,hashPassword))
+                return false;
+
+            this.email = login;
+
+            return true;
+        }
+        public async createUser(login: string, password: string): Promise<boolean> 
+        {
+            
+            return await this.userService.createUser(login,password);
+        }
+        public async getPassword(login: string): Promise<Promise<object>[]> 
+        {
+            
+            return await this.userService.getPassword(login);
+        }
+        public async loginNotExist(login: string): Promise<boolean> 
+        {
         
-        return await this.userService.createUser(login,password);
-    }
-    public async getPassword(login: string): Promise<Promise<object>[]> 
-    {
-        
-        return await this.userService.getPassword(login);
-    }
-    public async loginNotExist(login: string): Promise<boolean> 
-    {
-    
-        return await this.userService.loginNotExist(login);
+            return await this.userService.loginNotExist(login);
+        }
+
     }
 
 }
 
-export default LoginService;
+export default LoginServices;

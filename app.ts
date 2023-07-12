@@ -1,11 +1,21 @@
-import express,{ Express,Router,Request,Response } from 'express';
+import express,{ Express,Router,Request,Response, request } from 'express';
 import cookieParser from 'cookie-parser';
-import sessions from 'express-session';
+import session from 'express-session';
 import hbs from 'hbs';
 import path from 'path';
 import bodyParser from 'body-parser';
 import { fileURLToPath } from 'url';
-import UserController from './Controllers/UserController.ts';
+import Controllers from './Controllers/UserController.ts';
+
+declare module 'express-session' {
+
+    export interface SessionData {
+
+        user: string;
+
+    }
+
+}
 
 const router: Router = express.Router();
 
@@ -16,7 +26,8 @@ const app: Express = express();
 
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
-app.use(sessions({
+app.set('trust proxy',1);
+app.use(session({
 
     secret: 'user',
     saveUninitialized: true,
@@ -32,9 +43,14 @@ app.use(cookieParser());
 hbs.registerPartials(path.join(__dirname,'./Views/Partials'));
 app.set('view engine','hbs');
 
-app.get('/',(req: Request,res: Response): void =>{
+app.get('/',(req: Request,res: Response): void => {
 
-    UserController.index(res);
+    Controllers.UserController.show(req,res);
+
+});
+router.post('/login',(req: Request,res: Response): void => {
+
+    Controllers.UserController.login(req,res);
 
 });
 
