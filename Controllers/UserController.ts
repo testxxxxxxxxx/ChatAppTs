@@ -2,6 +2,7 @@ import {Request,Response} from 'express';
 import Services from '../Services/UserService.ts';
 import LoginServices from '../Services/LoginService.ts';
 import HashServices from '../Services/HashService.ts';
+import UserServices from '../Services/UserService.ts';
 
 namespace Controllers
 {
@@ -57,6 +58,13 @@ namespace Controllers
         }
         public static async create(req: Request,res: Response): Promise<void>
         {
+            const hashService: HashServices.HashService = new HashServices.HashService();
+            const userService: UserServices.UserService = new UserServices.UserService();
+            const loginService: LoginServices.LoginService = new LoginServices.LoginService(userService,hashService);
+
+            const email: string = req.body.email;
+            const password: string = req.body.password;
+
 
         }
         public static async update(req: Request,res: Response): Promise<void>
