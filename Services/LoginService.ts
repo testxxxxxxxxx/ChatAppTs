@@ -57,6 +57,16 @@ namespace LoginServices
         
             return await this.userService.loginNotExist(login);
         }
+        public async changePassword(email: string,newPassword: string): Promise<boolean> 
+        {
+            
+            return false;
+        }
+        public async deleteUser(email: string): Promise<boolean> 
+        {
+            
+            return false;
+        }
 
     }
 

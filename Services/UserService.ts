@@ -38,6 +38,24 @@ namespace UserServices
 
             return true;
         }
+        public async changePassword(email: string,newPassword: string): Promise<boolean> 
+        {
+            const result: boolean = await User0.updateOne({login: email},{$set: {password: newPassword}});
+
+            if(!result)
+                return false;
+
+            return true;
+        }
+        public async deleteUser(email: string): Promise<boolean>
+        {
+            const result: boolean = await User0.delete({login: email})
+
+            if(!result && !this.loginNotExist(email))
+                return false;
+
+            return true;
+        }
 
     }
 

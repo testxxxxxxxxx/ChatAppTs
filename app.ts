@@ -43,7 +43,7 @@ app.use(cookieParser());
 hbs.registerPartials(path.join(__dirname,'./Views/Partials'));
 app.set('view engine','hbs');
 
-app.get('/',(req: Request,res: Response): void => {
+app.get('/home',(req: Request,res: Response): void => {
 
     Controllers.UserController.show(req,res);
 
@@ -51,6 +51,21 @@ app.get('/',(req: Request,res: Response): void => {
 router.post('/login',(req: Request,res: Response): void => {
 
     Controllers.UserController.login(req,res);
+
+});
+router.post('/register',(req: Request,res: Response): void => {
+
+    Controllers.UserController.create(req,res);
+
+});
+router.post('/changePassword',(req: Request,res: Response): void => {
+
+    Controllers.UserController.update(req,res);
+
+});
+router.post('/deleteUser',(req: Request,res: Response): void => {
+
+    Controllers.UserController.delete(req,res);
 
 });
 
