@@ -70,12 +70,12 @@ namespace Controllers
             const checkRegex: boolean = requestValidatorService.checkEmail(email) && requestValidatorService.checkPassword(password);
 
             if(!checkRegex)
-                res.redirect('back');
+                res.redirect('/home');
 
             const isRegistered: boolean = await loginService.register(email,password,10);
 
             if(!isRegistered)
-                res.redirect('back');
+                res.redirect('/home');
 
             res.redirect('/home');
         }
