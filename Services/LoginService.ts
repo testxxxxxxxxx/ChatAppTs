@@ -35,12 +35,14 @@ namespace LoginServices
         {
             const hashPassword: string = await this.hashService.getHash(password,10);
 
-            if(!await this.loginNotExist(login) && !await this.createUser(login,hashPassword))
-                return false;
+            if(await this.loginNotExist(login) && await this.createUser(login,hashPassword))
+            {
+                this.email = login;
 
-            this.email = login;
+                return true;
+            }
 
-            return true;
+            return false;
         }
         public async createUser(login: string, password: string): Promise<boolean> 
         {

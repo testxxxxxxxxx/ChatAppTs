@@ -5,7 +5,8 @@ import hbs from 'hbs';
 import path from 'path';
 import bodyParser from 'body-parser';
 import { fileURLToPath } from 'url';
-import Controllers from './Controllers/UserController.ts';
+import UserControllers from './Controllers/UserController.ts';
+import MessageControllers from './Controllers/MessageController.ts';
 
 declare module 'express-session' {
 
@@ -46,27 +47,27 @@ app.use('/',router);
 
 app.get('/home',(req: Request,res: Response): void => {
 
-    Controllers.UserController.show(req,res);
+    UserControllers.UserController.show(req,res);
 
 });
 router.post('/login',(req: Request,res: Response): void => {
 
-    Controllers.UserController.login(req,res);
+    UserControllers.UserController.login(req,res);
 
 });
 router.post('/register',(req: Request,res: Response): void => {
 
-    Controllers.UserController.create(req,res);
+    UserControllers.UserController.create(req,res);
 
 });
 router.post('/changePassword',(req: Request,res: Response): void => {
 
-    Controllers.UserController.update(req,res);
+    UserControllers.UserController.update(req,res);
 
 });
 router.post('/deleteUser',(req: Request,res: Response): void => {
 
-    Controllers.UserController.delete(req,res);
+    UserControllers.UserController.delete(req,res);
 
 });
 

@@ -5,7 +5,7 @@ import HashServices from '../Services/HashService.ts';
 import UserServices from '../Services/UserService.ts';
 import RequestValidators from '../Services/RequestValidatorService.ts';
 
-namespace Controllers
+namespace UserControllers
 {
     export class UserController
     {
@@ -24,20 +24,18 @@ namespace Controllers
                 req.session.user = loginService.email;
 
                 res.redirect('/home');
-
             }
             else
             {
                 message="Login or password is not correct!";
 
                 res.redirect('back');
-
             }
 
         }
         public static async show(req: Request,res: Response): Promise<void>
         {
-            if(req.session.user)
+            if(req.session.user!="")
             {
                 res.render('index',{
 
@@ -70,12 +68,12 @@ namespace Controllers
             const checkRegex: boolean = requestValidatorService.checkEmail(email) && requestValidatorService.checkPassword(password);
 
             if(!checkRegex)
-                res.redirect('/home');
+                res.redirect('back');
 
             const isRegistered: boolean = await loginService.register(email,password,10);
 
             if(!isRegistered)
-                res.redirect('/home');
+                res.redirect('back');
 
             res.redirect('/home');
         }
@@ -123,4 +121,4 @@ namespace Controllers
 
 }
 
-export default Controllers;
+export default UserControllers;
