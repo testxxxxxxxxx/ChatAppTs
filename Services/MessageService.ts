@@ -11,7 +11,7 @@ namespace MessageServices
 
         }
 
-        public async get(to: number): Promise<Promise<object>[]>
+        public async get(to: object): Promise<Promise<object>[]>
         {
             
             return await Messages.Message.findOne({to: to},{_id: 1,from: 1,content: 1,group_id: 1}).lean().exec();

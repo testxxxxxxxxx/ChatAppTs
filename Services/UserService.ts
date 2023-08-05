@@ -18,6 +18,11 @@ namespace UserServices
 
             return false;
         }
+        public async getId(login: string): Promise<Promise<object>[]>
+        {
+
+            return await User0.findOne({login: login},{_id: 1});
+        }
         public async createUser(login: string,password: string): Promise<boolean>
         {
             const result: Promise<boolean> = await User0.create({login: login,password: password});

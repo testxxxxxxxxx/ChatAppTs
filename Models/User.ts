@@ -9,7 +9,7 @@ interface User
 
 try{
 
-    mongoose.connect('mongodb://localhost:27017/chatAppTs');
+    mongoose.connect('mongodb://172.17.0.6:27017/chatAppTs');
 
 }
 catch(e)

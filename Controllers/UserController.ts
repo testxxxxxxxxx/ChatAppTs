@@ -4,6 +4,7 @@ import LoginServices from '../Services/LoginService.ts';
 import HashServices from '../Services/HashService.ts';
 import UserServices from '../Services/UserService.ts';
 import RequestValidators from '../Services/RequestValidatorService.ts';
+import session from 'express-session';
 
 namespace UserControllers
 {
@@ -22,6 +23,8 @@ namespace UserControllers
             if(await loginService.login(email,password))
             {
                 req.session.user = loginService.email;
+                req.session.userId = await userService.getId(loginService.email);
+                req.session.logIn = true;
 
                 res.redirect('/home');
             }
@@ -35,7 +38,7 @@ namespace UserControllers
         }
         public static async show(req: Request,res: Response): Promise<void>
         {
-            if(req.session.user!="")
+            if(req.session.user && req.session.logIn && req.session.userId)
             {
                 res.render('index',{
 
