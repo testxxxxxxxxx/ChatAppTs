@@ -2,6 +2,13 @@ namespace RequestValidators
 {
     export class RequestValidatorService
     {
+        public checkId(id: object): boolean
+        {
+            if(typeof id!=="object")
+                return false;
+
+            return true;
+        }
         public checkEmail(email: string): boolean
         {
             const regex: RegExp = new RegExp("//^[A-Za-z0-9]*@[A-Za-z0-9]*.[a-z]*$//");
