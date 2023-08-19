@@ -27,6 +27,15 @@ namespace RequestValidators
 
             return true;
         }
+        public checkContent(content: string): boolean
+        {
+            const regex: RegExp = new RegExp("//(?=[^<>\/[[]])[a-zA-Z0-9]/");
+
+            if(regex.exec(content)===null)
+                return false;
+
+            return true;
+        }
 
     }
 

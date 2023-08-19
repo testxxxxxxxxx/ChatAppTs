@@ -39,11 +39,17 @@ namespace MessageControllers
             {
                 const userService: UserServices.UserService = new UserServices.UserService();
                 const messageService: MessageServices.MessageService = new MessageServices.MessageService();
+                const requestValidatorService: RequestValidators.RequestValidatorService = new RequestValidators.RequestValidatorService();
 
                 const emailTo: string = req.body.emailTo;
                 const content: string = req.body.content;
                 const groupId: object = req.body.groupId;
                 const userId: any = req.session.userId;
+
+                const dataIsValidated: boolean = requestValidatorService.checkEmail(emailTo) && requestValidatorService.checkContent(content) && requestValidatorService.checkId(groupId) && requestValidatorService.checkId(userId);
+
+                if(!dataIsValidated)
+                    res.redirect('back');
 
                 const userTo: object = await userService.getId(emailTo);
 
@@ -65,7 +71,22 @@ namespace MessageControllers
                 const messageService: MessageServices.MessageService = new MessageServices.MessageService();
                 const requestValidatorService: RequestValidators.RequestValidatorService = new RequestValidators.RequestValidatorService();
 
+                const messageId: object = req.body.messageId;
+
+                const dataIsValidated: boolean = requestValidatorService.checkId(messageId);
+
+                if(!dataIsValidated)
+                    res.redirect('back');
+
+                const messageIdDeleted: boolean = await messageService.delete(messageId);
+
+                if(!messageIdDeleted)
+                    res.redirect('back');
+
+                res.redirect('home');
             }
+            else
+                res.redirect('back');
             
         }
 
