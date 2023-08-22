@@ -30,7 +30,7 @@ namespace Messages
 
     const messageSchema: Schema = new mongoose.Schema<Message>();
 
-    export const Message: any = mongoose.model('Message',messageSchema);
+    export const Message: any = mongoose.model<Message>('Message',messageSchema);
 
 }
 

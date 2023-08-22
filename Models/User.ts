@@ -2,8 +2,8 @@ import mongoose, { Schema } from "mongoose";
     
 interface User
 {
-    login: String;
-    password: String;
+    login: string;
+    password: string;
 
 }
 
@@ -23,8 +23,8 @@ finally
 
 }
 
-const userSchema: Schema = new mongoose.Schema<User>({login: String,password: String},{strict: false});
+const userSchema: Schema = new mongoose.Schema<User>({login: {type: String, required: true},password: {type: String, required: true}},{strict: false});
 
-const User0: any = mongoose.model('User',userSchema);
+const User0: any = mongoose.model<User>('User',userSchema);
 
 export default User0;

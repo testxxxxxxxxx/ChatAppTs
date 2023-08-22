@@ -1,10 +1,10 @@
-import UserInterface from "../Interfaces/UserInterface.ts";
+import LoginInterfaces from "../Interfaces/LoginInterface.ts";
 import UserServices from "./UserService.ts";
 import HashServices from "./HashService.ts";
 
 namespace LoginServices
 {
-    export class LoginService implements UserInterface
+    export class LoginService implements LoginInterfaces.LoginInterface
     {
         public email: string;
 
@@ -17,7 +17,7 @@ namespace LoginServices
 
         public async login(login: string, password: string): Promise<boolean> 
         {    
-            const finalPassword: any = await this.getPassword(login); //hash password from database
+            const finalPassword: any = await this.userService.getPassword(login); //hash password from database
 
             if(finalPassword===null)
                 return false;
@@ -35,38 +35,13 @@ namespace LoginServices
         {
             const hashPassword: string = await this.hashService.getHash(password,10);
 
-            if(await this.loginNotExist(login) && await this.createUser(login,hashPassword))
+            if(await this.userService.loginNotExist(login) && await this.userService.createUser(login,hashPassword))
             {
                 this.email = login;
 
                 return true;
             }
 
-            return false;
-        }
-        public async createUser(login: string, password: string): Promise<boolean> 
-        {
-            
-            return await this.userService.createUser(login,password);
-        }
-        public async getPassword(login: string): Promise<Promise<object>[]> 
-        {
-            
-            return await this.userService.getPassword(login);
-        }
-        public async loginNotExist(login: string): Promise<boolean> 
-        {
-        
-            return await this.userService.loginNotExist(login);
-        }
-        public async changePassword(email: string,newPassword: string): Promise<boolean> 
-        {
-            
-            return false;
-        }
-        public async deleteUser(email: string): Promise<boolean> 
-        {
-            
             return false;
         }
 

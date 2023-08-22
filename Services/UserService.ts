@@ -5,19 +5,6 @@ namespace UserServices
 {
     export class UserService implements UserInterface
     {
-        public async login(login: string,password: string): Promise<boolean>
-        {
-            const result: any = await this.getPassword(login);
-
-            console.log(result.password);
-
-            return false;
-        }
-        public async register(login: string,password: string,salt: number): Promise<boolean>
-        {
-
-            return false;
-        }
         public async getId(login: string): Promise<Promise<object>[]>
         {
 
