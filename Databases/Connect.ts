@@ -1,8 +1,8 @@
-import mongoose, { Connection } from "mongoose";
+import mongoose from "mongoose";
 
 namespace Databases
 {
-    class Connect 
+    export class Connect 
     {
         public constructor(private uri: string, private dbName: string,private mongoose: any)
         {
@@ -21,3 +21,5 @@ namespace Databases
     }
 
 }
+
+export default Databases;
