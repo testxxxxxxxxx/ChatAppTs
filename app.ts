@@ -47,7 +47,7 @@ hbs.registerPartials(path.join(__dirname,'./Views/Partials'));
 app.set('view engine','hbs');
 app.use('/',router);
 
-app.get('/home',(req: Request,res: Response): void => {
+app.get('/',(req: Request,res: Response): void => {
 
     UserControllers.UserController.show(req,res);
 
