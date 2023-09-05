@@ -28,9 +28,9 @@ namespace GroupServices
 
             return result;
         }
-        public async update(name: string,newName: string): Promise<boolean>
+        public async update(id: object,newName: string): Promise<boolean>
         {
-            const result: boolean = await GroupModel.Group.updateOne({name: name},{$set: {name: newName}}).exec();
+            const result: boolean = await GroupModel.Group.updateOne({_id: id},{$set: {name: newName}}).exec();
 
             return result;
         }
