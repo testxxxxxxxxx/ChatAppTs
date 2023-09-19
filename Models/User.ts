@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import Databases from "../Databases/Connect.ts";
     
 interface User
 {
@@ -7,21 +8,7 @@ interface User
 
 }
 
-try{
-
-    mongoose.connect('mongodb://172.17.0.6:27017/chatAppTs');
-
-}
-catch(e)
-{
-    console.error();
-
-}
-finally
-{
-    console.log("Connected");
-
-}
+Databases.Connect.connect('mongodb://172.17.0.6:27017', 'chatAppTs');
 
 const userSchema: Schema = new mongoose.Schema<User>({login: {type: String, required: true},password: {type: String, required: true}},{strict: false});
 

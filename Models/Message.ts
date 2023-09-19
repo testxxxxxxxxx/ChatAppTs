@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import Databases from "../Databases/Connect.ts";
 
 namespace Messages
 {
@@ -12,21 +13,7 @@ namespace Messages
 
     }
 
-    try{
-
-        mongoose.connect('mongodb://172.17.0.6:27017/chatAppTs');
-
-    }
-    catch(e)
-    {
-        console.error(e);
-
-    }
-    finally
-    {
-        console.log("Message connected!");
-
-    }
+    Databases.Connect.connect('mongodb://172.17.0.6:27017', 'chatAppTs');
 
     const messageSchema: Schema = new mongoose.Schema<Message>();
 

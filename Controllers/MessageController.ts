@@ -43,17 +43,16 @@ namespace MessageControllers
 
                 const emailTo: string = req.body.emailTo;
                 const content: string = req.body.content;
-                const groupId: object = req.body.groupId;
                 const userId: any = req.session.userId;
 
-                const dataIsValidated: boolean = requestValidatorService.checkEmail(emailTo) && requestValidatorService.checkContent(content) && requestValidatorService.checkId(groupId) && requestValidatorService.checkId(userId);
+                const dataIsValidated: boolean = requestValidatorService.checkEmail(emailTo) && requestValidatorService.checkContent(content) && requestValidatorService.checkId(userId);
 
                 if(!dataIsValidated)
                     res.redirect('back');
 
                 const userTo: object = await userService.getId(emailTo);
 
-                const messageIsCreated: boolean = await messageService.create(userId,userTo,content,groupId);
+                const messageIsCreated: boolean = await messageService.create(userId,userTo,content);
 
                 if(!messageIsCreated)
                     res.redirect('back');

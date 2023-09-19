@@ -4,18 +4,24 @@ namespace Databases
 {
     export class Connect 
     {
-        public constructor(private uri: string, private dbName: string,private mongoose: any)
+        public static async connect(uri: string, dbName: string): Promise<void>
         {
-            this.uri = uri;
-            this.dbName = dbName;
-            this.mongoose = mongoose;
+            try{
 
-        }
+                await mongoose.connect(`${uri}/${dbName}`);
 
-        public async connect(): Promise<typeof mongoose>
-        {
+            }
+            catch(e)
+            {
+                console.log(e);
 
-            return await this.mongoose.connect(`${this.uri}/${this.dbName}`);
+            }
+            finally
+            {
+                console.log("Connected");
+
+            }
+            
         }
 
     }
